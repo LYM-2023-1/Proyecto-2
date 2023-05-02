@@ -1,0 +1,295 @@
+using gold.**
+
+procedure main(args:String[]) begin
+	var sc:java.util.Scanner(System.$in)
+    
+    
+    
+	coder:=createCoder()
+   	deCoder := createDeCoder()
+   	GAutomataFrame.show(coder)
+   //GAutomataFrame.show(deCoder)
+   
+  	
+	
+  	testCodeDecode(coder,deCoder)
+		
+end
+
+
+
+procedure testCodeDecode(C:ITransducer, D:ITransducer) begin
+	var sc:java.util.Scanner(System.$in)
+   
+    
+    
+    print  "Testing Coder-Decoder"
+    string = " "
+    while string != 	λ do
+		print "----------------------------"
+		print "Input string: (empty string to end)"
+		if string != 	λ then
+		
+			string:=sc.nextLine()
+			if string != 	λ then
+		
+              option := λ
+              while option  ∉ {"1","2", "3"} do
+              	print "What do you want to do?"
+		       	print "1. code only?"
+		       	print "2. code and decode?"
+		       	print "3. decode only?"
+		       	
+		       	option := sc.nextLine()
+				end
+		       stringOut:= ""
+ 				if option="1" or option="2"  then
+                     result:=C.acceptsString(string)
+						print "The string was "+(result?"accepted":"not accepted")+". Output: "+C.getOutputString()	
+						stringOut = C.getOutputString()
+					    if option="2" then	
+					    	result:=D.acceptsString(stringOut)
+							print "The coded string was "+(result?"accepted":"not accepted")+". Output: "+D.getOutputString()	
+							stringOut1 = D.getOutputString()
+							print "The decoded string is "+ (stringOut1!=string?"not ":λ)+"equal to the original string." 
+					     end
+						
+				else
+				       	result:=D.acceptsString(string)
+							print "The string was "+(result?"accepted":"not accepted")+" by the decoder. Output: "+D.getOutputString()	
+						
+				 end
+				 
+				
+			end
+	end
+end   
+  end
+
+
+
+function getName() begin
+	return "Proyecto-2"
+end
+
+var delta : GHashTableMap()
+var outputT : GHashTableMap()
+
+function createCoder():IAutomaton begin
+	Q:={"o","a","b","c","aa", "ab", "ac", "ba", "bb", "bc", "ca", "cb", "cc","aaa", "aab", "aac", "aba", "abb", "abc", "aca", "acb", "acc", "baa", "bab", "bac", "bba", "bbb", "bbc", "bca", "bcb", "bcc", "caa", "cab", "cac", "cba", "cbb", "cbc", "cca", "ccb", "ccc",0}
+	Σ:={'a','b','c','&'}
+	O:={'a','b','c','*','&'}
+	
+	q₀:="o"
+	F:={"aaa", "aab", "aac", "aba", "abb", "abc", "aca", "acb", "acc", "baa", "bab", "bac", "bba", "bbb", "bbc", "bca", "bcb", "bcc", "caa", "cab", "cac", "cba", "cbb", "cbc", "cca", "ccb", "ccc"}
+
+	
+	outputT.put(⟨"aaa",'&'⟩, "&")
+	outputT.put(⟨"aab",'&'⟩, "&")
+	outputT.put(⟨"aac",'&'⟩, "&")
+	
+	outputT.put(⟨"aba",'&'⟩, "&")
+	outputT.put(⟨"abb",'&'⟩, "&")
+	outputT.put(⟨"abc",'&'⟩, "&")
+	
+	outputT.put(⟨"aca",'&'⟩, "&")
+	outputT.put(⟨"acb",'&'⟩, "&")
+	outputT.put(⟨"acc",'&'⟩, "&")
+	
+	outputT.put(⟨"baa",'&'⟩, "&")
+	outputT.put(⟨"bab",'&'⟩, "&")
+	outputT.put(⟨"bac",'&'⟩, "&")
+
+	outputT.put(⟨"bba",'&'⟩, "&")
+	outputT.put(⟨"bbb",'&'⟩, "&")
+	outputT.put(⟨"bbc",'&'⟩, "&")
+
+	outputT.put(⟨"bca",'&'⟩, "&")
+	outputT.put(⟨"bcb",'&'⟩, "&")
+	outputT.put(⟨"bcc",'&'⟩, "&")
+	
+	outputT.put(⟨"caa",'&'⟩, "&")
+	outputT.put(⟨"cab",'&'⟩, "&")
+	outputT.put(⟨"cac",'&'⟩, "&")
+	
+	outputT.put(⟨"cba",'&'⟩, "&")
+	outputT.put(⟨"cbb",'&'⟩, "&")
+	outputT.put(⟨"cbc",'&'⟩, "&")
+	
+	outputT.put(⟨"cca",'&'⟩, "&")
+	outputT.put(⟨"ccb",'&'⟩, "&")
+	outputT.put(⟨"ccc",'&'⟩, "&")
+	
+	
+	delta.put(⟨"o",'a'⟩, "a")
+	delta.put(⟨"o",'b'⟩, "b")
+	delta.put(⟨"o",'c'⟩, "c")
+	
+	delta.put(⟨"a",'a'⟩, "aa")
+	delta.put(⟨"a",'b'⟩, "ab")
+	delta.put(⟨"a",'c'⟩, "ac")
+	
+	delta.put(⟨"b",'a'⟩, "ba")
+	delta.put(⟨"b",'b'⟩, "bb")
+	delta.put(⟨"b",'c'⟩, "bc")
+	
+	delta.put(⟨"c",'a'⟩, "ca")
+	delta.put(⟨"c",'b'⟩, "cb")
+	delta.put(⟨"c",'c'⟩, "cc")
+	
+	
+	delta.put(⟨"aa",'a'⟩, "aaa")
+	delta.put(⟨"aa",'b'⟩, "aab")
+	delta.put(⟨"aa",'c'⟩, "aac")
+	
+	delta.put(⟨"ab",'a'⟩, "aba")
+	delta.put(⟨"ab",'b'⟩, "abb")
+	delta.put(⟨"ab",'c'⟩, "abc")
+	
+	delta.put(⟨"ac",'a'⟩, "aca")
+	delta.put(⟨"ac",'b'⟩, "acb")
+	delta.put(⟨"ac",'c'⟩, "acc")
+	
+	delta.put(⟨"ba",'a'⟩, "baa")
+	delta.put(⟨"ba",'b'⟩, "bab")
+	delta.put(⟨"ba",'c'⟩, "bac")
+	
+	delta.put(⟨"bb",'a'⟩, "bba")
+	delta.put(⟨"bb",'b'⟩, "bbb")
+	delta.put(⟨"bb",'c'⟩, "bbc")
+
+	delta.put(⟨"bc",'a'⟩, "bca")
+	delta.put(⟨"bc",'b'⟩, "bcb")
+	delta.put(⟨"bc",'c'⟩, "bcc")
+	
+	delta.put(⟨"ca",'a'⟩, "caa")
+	delta.put(⟨"ca",'b'⟩, "cab")
+	delta.put(⟨"ca",'c'⟩, "cac")
+	
+	delta.put(⟨"cb",'a'⟩, "cba")
+	delta.put(⟨"cb",'b'⟩, "cbb")
+	delta.put(⟨"cb",'c'⟩, "cbc")
+	
+	delta.put(⟨"cc",'a'⟩, "cca")
+	delta.put(⟨"cc",'b'⟩, "ccb")
+	delta.put(⟨"cc",'c'⟩, "ccc")
+
+	delta.put(⟨"aaa",'&'⟩, "o")
+	delta.put(⟨"aab",'&'⟩, "o")
+	delta.put(⟨"aac",'&'⟩, "o")
+	
+	delta.put(⟨"aba",'&'⟩, "o")
+	delta.put(⟨"abb",'&'⟩, "o")
+	delta.put(⟨"abc",'&'⟩, "o")
+	
+	delta.put(⟨"aca",'&'⟩, "o")
+	delta.put(⟨"acb",'&'⟩, "o")
+	delta.put(⟨"acc",'&'⟩, "o")
+	
+	delta.put(⟨"baa",'&'⟩, "o")
+	delta.put(⟨"bab",'&'⟩, "o")
+	delta.put(⟨"bac",'&'⟩, "o")
+
+	delta.put(⟨"bba",'&'⟩, "o")
+	delta.put(⟨"bbb",'&'⟩, "o")
+	delta.put(⟨"bbc",'&'⟩, "o")
+
+	delta.put(⟨"bca",'&'⟩, "o")
+	delta.put(⟨"bcb",'&'⟩, "o")
+	delta.put(⟨"bcc",'&'⟩, "o")
+	
+	delta.put(⟨"caa",'&'⟩, "o")
+	delta.put(⟨"cab",'&'⟩, "o")
+	delta.put(⟨"cac",'&'⟩, "o")
+	
+	delta.put(⟨"cba",'&'⟩, "o")
+	delta.put(⟨"cbb",'&'⟩, "o")
+	delta.put(⟨"cbc",'&'⟩, "o")
+	
+	delta.put(⟨"cca",'&'⟩, "o")
+	delta.put(⟨"ccb",'&'⟩, "o")
+	delta.put(⟨"ccc",'&'⟩, "o")
+
+
+	return 	GDeterministicTransducer(Q,Σ,O,"o",F,δ,g,h)
+end
+ 
+g(s) :=  x(s)
+ 
+δ(q,s) := delta.containsKey(⟨q,s⟩)?delta.get(⟨q,s⟩):0
+h(q,s) := outputT.containsKey(⟨q,s⟩)?outputT.get(⟨q,s⟩):λ
+
+function x(s) begin
+	if s == "aaa" then
+		if g("o") != "aaa" then
+	  		return "aaa"
+	  	else
+	  		return "*"
+	  		
+	  	end
+	elseif s == "aab" then
+		return "baa"
+	elseif s == "aac" then
+		return "caa"
+	elseif s == "aba" then
+  		return "aba"
+	elseif s == "abb" then
+  		return "bba"
+	elseif s == "abc" then
+  		return "cba"
+	elseif s == "aca" then
+  		return "aca"
+	elseif s == "acb" then
+  		return "bca"
+	elseif s == "acc" then
+  		return "cca"
+	elseif s == "baa" then
+  		return "aab"
+	elseif s == "bab" then
+  		return "bab"
+	elseif s == "bac" then
+  		return "cab"
+	elseif s == "bba" then
+  		return "abb"
+	elseif s == "bbb" then
+  		return "bbb"
+	elseif s == "bbc" then
+  		return "cbb"
+	elseif s == "bca" then
+  		return "acb"
+	elseif s == "bcb" then
+  		return "bcb"
+	elseif s == "bcc" then
+  		return "ccb"
+	elseif s == "caa" then
+		return "aac"
+	elseif s == "cab" then
+  		return "bac"
+	elseif s == "cac" then
+  		return "cac"
+	elseif s == "cba" then
+  		return "abc"
+	elseif s == "cbb" then
+  		return "bbc"
+	elseif s == "cbc" then
+  		return "cbc"
+	elseif s == "cca" then
+  		return "acc"
+	elseif s == "ccb" then
+  		return "bcc"
+	elseif s == "ccc" then
+  		return "ccc"
+
+	else
+		return λ
+	end
+end
+
+function createDeCoder():IAutomaton begin
+	Q := 
+	Σ :=
+	Σ´:=
+	q₀:=
+	F :=
+	return 	GDeterministicTransducer(Q,Σ,Σ´,q₀,F,δ1,g,h1)
+end
